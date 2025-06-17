@@ -10,8 +10,8 @@
     {{-- Middle: Product Info --}}
     <div class="col-span-2 border-x-2 px-6">
         <h2 class="text-2xl font-bold mb-4">{{ $product->name }}</h2>
-
-           <h2 class="text-1xl font-bold mb-4">{{ $product->description }}</h2>
+<h2 class="text-2xl font-bold">Product Description</h2>
+           <h2 class="text-1xl font-light mb-4">{{ $product->description }}</h2>
         {{-- Price --}}
         <div class="text-xl font-semibold text-blue-600 mb-2">
             @if(empty($product->discounted_price) || $product->discounted_price == 0)
@@ -27,11 +27,18 @@
 
         {{-- Add to Cart Form --}}
         @if($product->stock > 0)
-        <form method="POST" action="">
+        <form method="POST" action="POST">
             @csrf
             <label for="quantity" class="block mb-2 font-medium">Quantity:</label>
-            <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $product->stock }}"
-                   class="w-24 border rounded px-2 py-1 mb-4">
+            <div class="mt-4 flex">
+            <span class="bg-gray-300 px-4 py-1 cursor-pointer" id="decrement">-</span>
+            <input type="number" name="quantity" id="quantity" value="1" min="1" 
+                   class="border w-12 text-center p-0 py-1" readonly>
+   
+            <span class="bg-gray-300 px-4 py-1 cursor-pointer" id="increment">+</span>
+
+            </div>
+         
             <br>
             <button type="submit"
                     class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
@@ -61,4 +68,22 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    let quantity=document.getElementById('quantity');
+   let stock={{ $product->stock }};
+   document.getElementById('increment').addEventListener('click',function(){
+if(parseInt(quantity.value)<stock){
+    quantity.value=parseInt(quantity.value)+1;
+}
+   });
+
+   document.getElementById('decrement').addEventListener('click',function(){
+   if(parseInt(quantity.value)>1){
+    quantity.value=parseInt(quantity.value)-1;
+   }
+   });
+
+    </script>
 @endsection
