@@ -13,7 +13,8 @@ class PagesController extends Controller
     }
     public function viewproduct($id){
         $product= Product::FindOrFail($id);
-        return view('viewproduct',compact('product'));
+        $relatedproducts=Product::where('category_id',$product->category_id)->where('id','!=',$id)->take(4)->get();
+        return view('viewproduct',compact('product','relatedproducts'));
     }
     public function login()
     {
