@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -20,5 +21,10 @@ class PagesController extends Controller
     {
         return view('login'); 
     }
-   
+   public function categoryproduct($catid)
+    {
+        $category = Category::findOrFail($catid);
+        $products = Product::where('category_id', $catid)->latest()->paginate(20);
+        return view('categoryproduct', compact('products', 'category'));
+    }
 }

@@ -21,7 +21,7 @@
         <div class="flex gap-3">
             <a href="/" class="" hover:text-blue-600">Home</a>
             @foreach ($categories as $category)
-                <a href="" class="hover:text-blue-600">{{$category->name}}</a>
+                <a href="{{route('categoryproduct',$category->id)}}" class="hover:text-blue-600">{{$category->name}}</a>
             @endforeach
             <a href="{{ route('login') }}" class="" hover:text-blue-600">Login</a>
         </div>
@@ -31,7 +31,7 @@
 
     <footer class="text-center bg-gray-800 text-white p-4 mt-5 ">
         <p>&copy; 2025 My Laravel Project</p>
-        <p>Created by You</p>
+        <p>Created by Manish</p>
     </footer>
 </body>
 
