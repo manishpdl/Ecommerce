@@ -30,7 +30,7 @@
         @enderror
         <p>Current Picture:</p>
         <img src="{{asset('images/products/'.$product->photopath)}}" alt="Product Image" class="h-32 mb-3">
-        <input type="file" class="border border-gray-300 p-2 rounded-md w-full mb-3" name="photopath" placeholder="Picture" value="{{old('photopath')}}" >
+        <input type="file" class="border border-gray-300 p-2 rounded-md w-full mb-3" name="photopath" value="{{old('photopath')}}" >
         @error('photopath')
             <div class="text-red-500 mb-3 -mt-3">{{$message}}</div>
         @enderror

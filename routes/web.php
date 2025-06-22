@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PagesController;
@@ -11,17 +12,17 @@ Route::get('/', [PagesController::class, 'home']);
 Route::get('/viewproduct/{id}', [PagesController::class, 'viewproduct'])->name('viewproduct');
 Route::get('/categoryproduct/{catid}', [PagesController::class, 'categoryproduct'])->name('categoryproduct');
 
-Route::get('/login', [PagesController::class, 'login'])->name('login');
 
-Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
+Route::get('/dashboard',[DashboardController::class,'dashboard'])->middleware(['auth', 'isadmin'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth','isadmin'])->group(function () {
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
     Route::post('/categories/store', [CategoryController::class, 'store'])->name('categories.store');
     Route::get('/categories/{id}/edit',[CategoryController::class, 'edit'])->name('categories.edit');
     Route::post('/categories/{id}/update', [CategoryController::class, 'update'])->name('categories.update');
     Route::get('/categories/{id}/destroy',[CategoryController::class,'destroy'])->name('categories.destroy');
+    
 
     //Product
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
@@ -38,4 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::middleware('auth')->group(function () {
+        Route::post('/cart/store', [CartController::class, 'store'])->name('cart.store');
+
+});
 require __DIR__.'/auth.php';

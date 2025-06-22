@@ -27,8 +27,9 @@
 
         {{-- Add to Cart Form --}}
         @if($product->stock > 0)
-        <form method="POST" action="POST">
+        <form action="{{ route('cart.store') }}" method="POST">
             @csrf
+            <input type="hidden" name="product_id" value="{{ $product->id }}">
             <label for="quantity" class="block mb-2 font-medium">Quantity:</label>
             <div class="mt-4 flex">
             <span class="bg-gray-300 px-4 py-1 cursor-pointer" id="decrement">-</span>

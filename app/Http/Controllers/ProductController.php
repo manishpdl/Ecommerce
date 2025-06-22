@@ -34,14 +34,14 @@ class ProductController extends Controller
         ]);
 
         // Handle file upload
-        $file = $request->file('photopath');
-        $fileName = time() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('images/products'), $fileName);
-        $data['photopath'] = $fileName;
+        $file = $request->file('photopath');//Gets the uploaded image
+        $fileName = time() . '.' . $file->getClientOriginalExtension();//Renames it to something unique
+        $file->move(public_path('images/products'), $fileName);//Moves it to public/images/products
+        $data['photopath'] = $fileName;//Saves the file name to the database
 
         // Create the product
         Product::create($data);
-        return redirect()->route('products.index')->with('success', 'Product Created Successfully');
+        return redirect()->route('products.index')->with('success', 'Product Created Successfully');//Shows success message
     }
 
     public function edit($id)

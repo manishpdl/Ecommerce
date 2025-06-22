@@ -10,6 +10,8 @@
 </head>
 
 <body>
+     @include('layouts.alert')
+
     @php
         $categories = \App\Models\Category::orderBy('order', 'asc')->get();
     @endphp
@@ -23,7 +25,15 @@
             @foreach ($categories as $category)
                 <a href="{{route('categoryproduct',$category->id)}}" class="hover:text-blue-600">{{$category->name}}</a>
             @endforeach
+             @auth
+              <a href="">Hi, {{auth()->user()->name}}</a>
+                <form action="{{ route('logout') }}" method="POST" class="inline">
+                     @csrf
+                    <button type="submit" class="text-white">Logout</button>
+                </form>
+            @else
             <a href="{{ route('login') }}" class="" hover:text-blue-600">Login</a>
+               @endauth
         </div>
     </nav>
 
