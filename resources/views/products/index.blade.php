@@ -32,5 +32,10 @@
             </td>
         </tr>
         @endforeach
-    </table>
+       
+    </table>  
+    <div class="mt-3 text-white">
+        {{ $products->links() }}   
+    </div>
+  
 @endsection

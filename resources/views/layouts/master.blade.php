@@ -15,6 +15,25 @@
     @php
         $categories = \App\Models\Category::orderBy('order', 'asc')->get();
     @endphp
+    
+    <div class="flex gap-3 justify-end items-center text-sm bg-gray-500 text-white py-2 px-12">
+        @auth
+            <a href="">Hi, {{auth()->user()->name}}</a>
+            <a href="{{route('mycart')}}" class="text-white relative">My Cart
+                <span class="absolute -top-2 -right-3 bg-yellow-500 text-black rounded-full px-1 text-xs">
+                    8
+                </span>
+            </a>
+            <form action="{{ route('logout') }}" method="POST" class="inline">
+                @csrf
+                <button type="submit" class="text-white">Logout</button>
+            </form>
+        @else
+            <a href="/login">Login</a>
+        @endauth
+
+    </div>
+    
     <nav class="flex justify-between items-center py-3 px-12 bg-gray-900
  text-white ">
         <h1 class="font-bold text-lg ">
@@ -25,15 +44,7 @@
             @foreach ($categories as $category)
                 <a href="{{route('categoryproduct',$category->id)}}" class="hover:text-blue-600">{{$category->name}}</a>
             @endforeach
-             @auth
-              <a href="">Hi, {{auth()->user()->name}}</a>
-                <form action="{{ route('logout') }}" method="POST" class="inline">
-                     @csrf
-                    <button type="submit" class="text-white">Logout</button>
-                </form>
-            @else
-            <a href="{{ route('login') }}" class="" hover:text-blue-600">Login</a>
-               @endauth
+        
         </div>
     </nav>
 

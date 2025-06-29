@@ -4,7 +4,7 @@
 </div>
 <style>
     #alert {
-        margin-right: -100%;
+        margin-right: -100%; 
         transition: margin-right 1s ease-in-out;
     }
 </style>
