@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PagesController::class, 'home']);
 Route::get('/viewproduct/{id}', [PagesController::class, 'viewproduct'])->name('viewproduct');
 Route::get('/categoryproduct/{catid}', [PagesController::class, 'categoryproduct'])->name('categoryproduct');
+Route::get('/search',[PagesController::class,'search'])->name('search');
 
 Route::middleware('auth')->group(function(){
     Route::post('/cart/store', [CartController::class, 'store'])->name('cart.store');
@@ -21,6 +22,8 @@ Route::middleware('auth')->group(function(){
     Route::post('/cart/update/{cartid}', [CartController::class, 'update'])->name('cart.update');
     Route::post('/cart/destroy', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::post('/order/store/{cartid}', [OrderController::class, 'store'])->name('order.store');
+    Route::post('/order/store/{cartid}', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/order/esewa/{cartid}', [OrderController::class, 'store_esewa'])->name('order.esewa');
 
 
 });
@@ -43,6 +46,8 @@ Route::middleware(['auth','isadmin'])->group(function () {
     Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
     Route::post('/products/{id}/update', [ProductController::class, 'update'])->name('products.update');
     Route::get('/products/{id}/destroy', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get(('/orders/status/{orderid}/{status}'), [OrderController::class, 'update_status'])->name('orders.status');
 });
 
 Route::middleware('auth')->group(function () {

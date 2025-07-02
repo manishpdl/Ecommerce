@@ -6,7 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-       protected $guarded = [];
+    protected $fillable = [
+        'user_id',
+        'product_id',
+        'price',
+        'quantity',
+        'name',
+        'phone',
+        'address',
+        'status',
+        'payment_method',
+        'payment_status',
+    ];
 
          public function user()
     {

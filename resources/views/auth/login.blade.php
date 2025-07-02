@@ -24,7 +24,8 @@
                 <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                 <input type="password" name="password" id="password" required
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            </div>
+           <a href="{{ route('password.request') }}" class="text-blue-600 hover:underline text-sm ">Forgot Password?</a>
+                </div>
             <button type="submit" class="w-full bg-gray-700
      text-white font-bold py-2 px-4 rounded hover:bg-gray-900 transition duration-200">
                 Login
