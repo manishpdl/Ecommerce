@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -18,7 +19,7 @@ class OrderController extends Controller
             'price' => $cart->product->discounted_price != '' ? $cart->product->discounted_price : $cart->product->price,
             'quantity' => $cart->quantity,
             'name' => $cart->user->name,
-            'phone' => '988484',
+            'phone' => '9844210361',
             'address' => 'Chitwan',
 
 
@@ -55,27 +56,27 @@ class OrderController extends Controller
                 'price' => $cart->product->discounted_price != '' ? $cart->product->discounted_price : $cart->product->price,
                 'quantity' => $cart->quantity,
                 'name' => $cart->user->name,
-                'phone' => '988484',
+                'phone' => '9812345678',
                 'address' => 'Chitwan',
                 'status' => 'completed',
                 'payment_method' => 'esewa',
                 'payment_status' => 'paid',
             ];
 
-           $order= Order::create($orderdarta);
+            $order = Order::create($orderdarta);
             //send email to user
-        $msg = [
-            'name' => $order->user->name,
-            'product_name' => $order->product->name,
-            'price' => $order->price,
-            'quantity' => $order->quantity,
-            'address' => $order->address,
-        ];
+            $msg = [
+                'name' => $order->user->name,
+                'product_name' => $order->product->name,
+                'price' => $order->price,
+                'quantity' => $order->quantity,
+                'address' => $order->address,
+            ];
 
-        Mail::send('emails.neworder', $msg, function ($message) use ($order) {
-            $message->to($order->user->email)
-                ->subject('Order Placed ');
-        });
+            Mail::send('emails.neworder', $msg, function ($message) use ($order) {
+                $message->to($order->user->email)
+                    ->subject('Order Placed ');
+            });
             $cart->delete();
             return redirect()->route('mycart')->with('success', 'order placed successfully');
         }
@@ -91,14 +92,13 @@ class OrderController extends Controller
     {
         $order = Order::find($orderid);
         //update the stock
-        if(($order->status=='Pending' || $status=='Cancelled') && ($status =='Processing' || $status=='Delivered')){
-            $order->product->stock-=$order->quantity;
+        if (($order->status == 'Pending' || $order->status == 'pending' ||  $order->status == 'Cancelled') && ($status == 'Processing' || $status == 'Delivered')) {
+            $order->product->stock -= $order->quantity;
             $order->product->save();
         }
-        if($order->status =='Processing' || $order->status=='Delivered')
-        {
-            if($status=='Pending' || $status =='Cancelled'){
-                $order->product->stock +=$order->quantity;
+        if ($order->status == 'Processing' || $order->status == 'Delivered') {
+            if ($status == 'Pending' || $status == 'Cancelled') {
+                $order->product->stock += $order->quantity;
                 $order->product->save();
             }
         }
@@ -113,5 +113,26 @@ class OrderController extends Controller
                 ->subject('Order Status Updated');
         });
         return back()->with('success', 'Order status updated successfully.');
+    }
+
+    public function searchorder(Request $request)
+    {
+        $searchName = $request->input('name');
+        $searchPhone = $request->input('phone');
+        $searchStatus = $request->input('status');
+        $query = Order::query();
+        if ($searchName) {
+            $query->where('name', 'like', '%' . $searchName . '%');
+        }
+
+        if ($searchPhone) {
+            $query->where('phone', 'like', '%' . $searchPhone . '%');
+        }
+        if ($searchStatus) {
+            $query->where('status', $searchStatus);
+        }
+
+        $orders = $query->latest()->get();
+        return view('orders.index', compact('orders'));
     }
 }

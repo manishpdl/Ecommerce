@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('address');
-            $table->string('status')->default('pending');
+            $table->string('status')->default('Pending');
             $table->string('payment_method')->default('COD');
             $table->string('payment_status')->default('Unpaid');
             $table->timestamps();

@@ -14,6 +14,8 @@ Route::get('/', [PagesController::class, 'home']);
 Route::get('/viewproduct/{id}', [PagesController::class, 'viewproduct'])->name('viewproduct');
 Route::get('/categoryproduct/{catid}', [PagesController::class, 'categoryproduct'])->name('categoryproduct');
 Route::get('/search',[PagesController::class,'search'])->name('search');
+Route::get('/order/search',[OrderController::class,'searchorder'])->name('search.order');
+
 
 Route::middleware('auth')->group(function(){
     Route::post('/cart/store', [CartController::class, 'store'])->name('cart.store');
@@ -24,6 +26,8 @@ Route::middleware('auth')->group(function(){
     Route::post('/order/store/{cartid}', [OrderController::class, 'store'])->name('order.store');
     Route::post('/order/store/{cartid}', [OrderController::class, 'store'])->name('order.store');
     Route::get('/order/esewa/{cartid}', [OrderController::class, 'store_esewa'])->name('order.esewa');
+    Route::get('/myorders', [PagesController::class, 'myorders'])->name('myorders');
+    Route::post('/order/cancel', [PagesController::class, 'cancelorder'])->name('order.cancel');
 
 
 });

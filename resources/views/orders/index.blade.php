@@ -1,6 +1,20 @@
 @extends('layouts.app')
 @section('title', 'Orders')
 @section('content')
+
+<form method="GET" action="{{ route('search.order') }}" class="mb-4 flex gap-4">
+    <input type="text" name="name" placeholder="Search by name" value="{{ request('name') }}" class="border p-2 rounded">
+    <input type="text" name="phone" placeholder="Search by phone" value="{{ request('phone') }}" class="border p-2 rounded">
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Search</button>
+    <select name="status" class="border pl-2 pr-7 rounded">
+        <option value="">All Status</option>
+        <option value="Pending" {{ request('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
+        <option value="Processing" {{ request('status') == 'Processing' ? 'selected' : '' }}>Processing</option>
+        <option value="Delivered" {{ request('status') == 'Delivered' ? 'selected' : '' }}>Delivered</option>
+        <option value="Cancelled" {{ request('status') == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
+    </select>
+</form>
+
     <table class="w-full">
         <tr class="bg-gray-200">
             <th class="p-2 border border-gray-50">Order Date</th>
