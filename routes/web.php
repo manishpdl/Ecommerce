@@ -15,6 +15,9 @@ Route::get('/viewproduct/{id}', [PagesController::class, 'viewproduct'])->name('
 Route::get('/categoryproduct/{catid}', [PagesController::class, 'categoryproduct'])->name('categoryproduct');
 Route::get('/search',[PagesController::class,'search'])->name('search');
 Route::get('/order/search',[OrderController::class,'searchorder'])->name('search.order');
+Route::get('/products/search',[ProductController::class,'searchproduct'])->name('search.product');
+
+
 
 
 Route::middleware('auth')->group(function(){

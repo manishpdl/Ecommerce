@@ -58,7 +58,6 @@ class OrderController extends Controller
                 'name' => $cart->user->name,
                 'phone' => '9812345678',
                 'address' => 'Chitwan',
-                'status' => 'completed',
                 'payment_method' => 'esewa',
                 'payment_status' => 'paid',
             ];
@@ -105,6 +104,8 @@ class OrderController extends Controller
 
 
         $order->status = $status;
+        $order->payment_status = $status == 'Delivered' ? 'paid' : ($order->payment_method == 'esewa' ? 'Paid' : 'Unpaid');
+
         $order->save();
         //send email to user
         $msg = ['name' => $order->user->name, 'status' => $status];

@@ -22,7 +22,7 @@
     <body class="font-sans antialiased">
         @include('layouts.alert')
         <div class="flex">
-            <div class="h-screen w-52 bg-gray-200 shadow-md">
+            <div class="h-auto w-52 bg-gray-200 shadow-md">
                 <h2 class="text-center font-bold text-xl my-5">मनिष</h2>
                 <div>
                     <a href="{{route('dashboard')}}" class="block pl-2 py-2 hover:bg-gray-300 border-b border-gray-300">Dashboard</a>

@@ -11,7 +11,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::paginate(4);
-        return view('products.index',compact('products'));
+        return view('products.index', compact('products'));
     }
 
     public function create()
@@ -34,14 +34,14 @@ class ProductController extends Controller
         ]);
 
         // Handle file upload
-        $file = $request->file('photopath');//Gets the uploaded image
-        $fileName = time() . '.' . $file->getClientOriginalExtension();//Renames it to something unique
-        $file->move(public_path('images/products'), $fileName);//Moves it to public/images/products
-        $data['photopath'] = $fileName;//Saves the file name to the database
+        $file = $request->file('photopath'); //Gets the uploaded image
+        $fileName = time() . '.' . $file->getClientOriginalExtension(); //Renames it to something unique
+        $file->move(public_path('images/products'), $fileName); //Moves it to public/images/products
+        $data['photopath'] = $fileName; //Saves the file name to the database
 
         // Create the product
         Product::create($data);
-        return redirect()->route('products.index')->with('success', 'Product Created Successfully');//Shows success message
+        return redirect()->route('products.index')->with('success', 'Product Created Successfully'); //Shows success message
     }
 
     public function edit($id)
@@ -64,15 +64,14 @@ class ProductController extends Controller
         ]);
 
         $product = Product::findOrFail($id);
-        if($request->hasFile('photopath'))
-        {
+        if ($request->hasFile('photopath')) {
             // Handle file upload
             $file = $request->file('photopath');
             $fileName = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('images/products'), $fileName);
             $data['photopath'] = $fileName;
             //unlink the old image
-            if(file_exists(public_path('images/products/' . $product->photopath))) {
+            if (file_exists(public_path('images/products/' . $product->photopath))) {
                 unlink(public_path('images/products/' . $product->photopath));
             }
         }
@@ -85,10 +84,28 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         //unlink the image
-        if(file_exists(public_path('images/products/' . $product->photopath))) {
+        if (file_exists(public_path('images/products/' . $product->photopath))) {
             unlink(public_path('images/products/' . $product->photopath));
         }
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Product Deleted Successfully');
     }
+
+
+
+   public function searchproduct(Request $request){
+     $searchproduct = $request->input('search');
+     $products=Product::query();
+
+     if($searchproduct){
+ $products = $products->whereHas('category', function ($query) use ($searchproduct) {
+            $query->where('name', 'like', '%' . $searchproduct . '%');
+        });     }else{
+        $products=$products->latest();      
+        }
+     $products = $products->paginate(4);
+     return view('products.index',compact('products'));
+     
+     }
 }
+     

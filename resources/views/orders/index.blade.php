@@ -3,7 +3,7 @@
 @section('content')
 
 <form method="GET" action="{{ route('search.order') }}" class="mb-4 flex gap-4">
-    <input type="text" name="name" placeholder="Search by name" value="{{ request('name') }}" class="border p-2 rounded">
+    <input type="text" name="name" placeholder="Search by Username" value="{{ request('name') }}" class="border p-2 rounded">
     <input type="text" name="phone" placeholder="Search by phone" value="{{ request('phone') }}" class="border p-2 rounded">
     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Search</button>
     <select name="status" class="border pl-2 pr-7 rounded">

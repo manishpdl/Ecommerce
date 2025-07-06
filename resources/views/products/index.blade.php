@@ -1,8 +1,13 @@
 @extends('layouts.app')
 @section('title', 'Products')
 @section('content')
+       
     <div class="flex justify-end mb-4">
-        <a href="{{route('products.create')}}" class="bg-blue-600 text-white px-4 py-2 rounded-lg ">Add Product</a>
+         <form action="{{ route('search.product') }}" method="get" class="mb-4 flex gap-4 ">
+            <input type="text" name="search" placeholder="Search by Category" value="{{ request('search') }}" class="border p-2 rounded">
+            <button type="submit" value="Search" class="bg-blue-600 text-white px-2 py-2 rounded-lg">Search</button>
+        </form>
+        <a href="{{route('products.create')}}" class="bg-blue-600 text-white px-4 py-2 mb-4 ml-4 rounded-lg ">Add Product</a>
     </div>
     <table class="w-full">
         <tr class="bg-gray-200">
@@ -26,7 +31,7 @@
             <td class="p-2 border border-gray-100">{{$product->description}}</td>
             <td class="p-2 border border-gray-100">{{$product->stock}}</td>
             <td class="p-2 border border-gray-100">{{$product->category->name}}</td>
-            <td class="p-2 border border-gray-100">
+            <td class="p-2 flex gap-2 border border-gray-100">
                 <a href="{{route('products.edit',$product->id)}}" class="bg-blue-600 text-white px-2 py-1 rounded-md">Edit</a>
                 <a href="{{route('products.destroy',$product->id)}}" onclick="return confirm('Are you sure to delete?');" class="bg-red-600 text-white px-2 py-1 rounded-md">Delete</a>
             </td>
