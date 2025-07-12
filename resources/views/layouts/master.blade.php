@@ -21,7 +21,7 @@
             <a href="">Hi, {{auth()->user()->name}}</a>
             <a href="{{route('mycart')}}" class="text-white relative">My Cart
                 <span class="absolute -top-2 -right-3 bg-yellow-500 text-black rounded-full px-1 text-xs">
-                    {{ auth()->user()->carts->count() }}
+                      {{ auth()->user()->carts->count() }}
                 </span>
             </a>
             <a href="{{ Route('myorders') }}" class="text-white">My Orders</a>

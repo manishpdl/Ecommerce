@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,7 @@ Route::get('/search',[PagesController::class,'search'])->name('search');
 Route::get('/order/search',[OrderController::class,'searchorder'])->name('search.order');
 Route::get('/products/search',[ProductController::class,'searchproduct'])->name('search.product');
 
+Route::post('/product/review', [ReviewController::class, 'review'])->middleware('auth')->name('product.review');
 
 
 
@@ -55,6 +57,10 @@ Route::middleware(['auth','isadmin'])->group(function () {
     Route::get('/products/{id}/destroy', [ProductController::class, 'destroy'])->name('products.destroy');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get(('/orders/status/{orderid}/{status}'), [OrderController::class, 'update_status'])->name('orders.status');
+
+
+    Route::get('/reviews/show', [ReviewController::class, 'index'])->name('reviews.index');
+Route::get('/reviews/{id}/destroy', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 
 Route::middleware('auth')->group(function () {

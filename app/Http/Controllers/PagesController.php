@@ -16,15 +16,21 @@ class PagesController extends Controller
         return view('welcome',compact('latestproducts'));
     }
 
-    public function viewproduct($id)
-    {
-        $product = Product::findOrFail($id);
-        $relatedproducts = Product::where('category_id', $product->category_id)
-            ->where('id', '!=', $id)
-            ->take(4)
-            ->get();
-        return view('viewproduct', compact('product','relatedproducts'));
-    }
+public function viewproduct($id)
+{
+    $product = Product::findOrFail($id);
+    $relatedproducts = Product::where('category_id', $product->category_id)
+        ->where('id', '!=', $id)
+        ->take(4)
+        ->get();
+
+    // Add this line to load reviews from Reviews model:
+    $reviews = \App\Models\Reviews::where('product_id', $id)->with('user')->get();
+
+    return view('viewproduct', compact('product', 'relatedproducts', 'reviews'));
+}
+
+
 
     public function categoryproduct($catid)
     {

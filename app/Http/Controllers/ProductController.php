@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Reviews;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -93,19 +94,20 @@ class ProductController extends Controller
 
 
 
-   public function searchproduct(Request $request){
-     $searchproduct = $request->input('search');
-     $products=Product::query();
+    public function searchproduct(Request $request)
+    {
+        $searchproduct = $request->input('search');
+        $products = Product::query();
 
-     if($searchproduct){
- $products = $products->whereHas('category', function ($query) use ($searchproduct) {
-            $query->where('name', 'like', '%' . $searchproduct . '%');
-        });     }else{
-        $products=$products->latest();      
+        if ($searchproduct) {
+            $products = $products->whereHas('category', function ($query) use ($searchproduct) {
+                $query->where('name', 'like', '%' . $searchproduct . '%');
+            });
+        } else {
+            $products = $products->latest();
         }
-     $products = $products->paginate(4);
-     return view('products.index',compact('products'));
-     
-     }
+        $products = $products->paginate(4);
+        return view('products.index', compact('products'));
+    }
+   
 }
-     
