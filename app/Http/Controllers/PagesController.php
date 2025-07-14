@@ -25,7 +25,7 @@ public function viewproduct($id)
         ->get();
 
     // Add this line to load reviews from Reviews model:
-    $reviews = \App\Models\Reviews::where('product_id', $id)->with('user')->get();
+    $reviews = \App\Models\Review::where('product_id', $id)->with('user')->get();
 
     return view('viewproduct', compact('product', 'relatedproducts', 'reviews'));
 }

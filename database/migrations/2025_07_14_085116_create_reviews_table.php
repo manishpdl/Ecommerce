@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained();
             $table->integer('rating');
             $table->text('comment')->nullable();
+            $table->string('imagephoto')->nullable(); // Added field for image photo
             $table->timestamps();
         });
     }

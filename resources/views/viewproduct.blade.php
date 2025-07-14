@@ -82,15 +82,30 @@
                 </p>
                 <p class="text-gray-700">{{ $review->comment }}</p>
             </div>
+            <div>
+                @if($review->imagephoto)
+                    <img src="{{ asset('images/reviews/' . $review->imagephoto) }}" alt="Review Image" class="w-24 h-24 object-cover rounded mt-2">
+                @endif
+                <p class="text-gray-500 text-sm mt-1">Reviewed on: {{ $review->created_at->format('d M Y') }}</p>
+            </div>
         @endforeach
     @else
         <p class="text-gray-500 italic">No reviews yet.</p>
     @endif
-@if(auth()->check())
+    {{-- User is logged in or is a customer --}}
+
+    {{-- User can submit a review --}}
+    @php
+    $hasOrdered = auth()->check() && \App\Models\Order::where('user_id', auth()->id())
+        ->where('product_id', $product->id)
+        ->where('status', 'Delivered') // or 'Completed'
+        ->exists();
+        @endphp
+         @if($hasOrdered)
     {{-- Submit Review Form --}}
     <div class="mt-10 border rounded-lg p-6 shadow-lg bg-gray-50">
         <h4 class="text-xl font-semibold mb-4">Submit Your Review</h4>
-        <form method="post" action="{{ route('product.review') }}">
+        <form method="post" action="{{ route('product.review') }}" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="product_id" value="{{ $product->id }}">
 
@@ -110,14 +125,17 @@
                 <label for="comment" class="block mb-1 font-medium">Comment:</label>
                 <textarea name="comment"  class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
             </div>
+            <div>
+                <label for="imagephoto" class="block mb-1 font-medium">Upload Image (optional):</label>
+                <input type="file" name="imagephoto" accept="image/*" class="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
 
-            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold mt-2 py-2 px-6 rounded-lg">
                 Submit Review
             </button>
         </form>
     </div>
-    @else
-    <p class="text-red-500">Please <a href="{{ route('login') }}" class="text-blue-500 underline">login</a> to write a review.</p>
+   
 @endif
 </div>
 
